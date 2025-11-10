@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 // });
 
-Route::post("/admin/create-token", [AdminController::class], "createPersonalToken");
+Route::post("/admin/create-token", [UserController::class, "createUserToken"]);
 Route::post("/client/create-token", [ClientController::class, "createClientToken"]);
 
 Route::middleware("auth:api")->group(function () {
@@ -28,6 +28,6 @@ Route::middleware("auth:api")->group(function () {
     });
 
     Route::prefix("admin")->group(function () {
-        Route::post("/create-user", [AdminController::class, "createUserClient"]);
+        Route::post("/create-user", [UserController::class, "createUserClient"]);
     });
 });

@@ -14,9 +14,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = ['password',];
 
     protected $guarded = [];
 
@@ -29,5 +27,10 @@ class User extends Authenticatable
                 $model->uuid = Str::ulid();
             }
         });
+    }
+
+    function clients()
+    {
+        return $this->morphMany(Client::class, "owner");
     }
 }

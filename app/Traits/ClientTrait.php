@@ -2,9 +2,7 @@
 
 namespace App\Traits;
 
-use App\Models\Client;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 trait ClientTrait
@@ -24,5 +22,12 @@ trait ClientTrait
     function createClientId()
     {
         return sprintf("CID_%s", Str::ulid());
+    }
+
+    function postOAuthServer(array $attributes)
+    {
+        $response = Http::asForm()->post(url("/oauth/token", $attributes));
+
+        return $response->json();
     }
 }

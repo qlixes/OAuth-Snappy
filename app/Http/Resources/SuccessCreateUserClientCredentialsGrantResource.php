@@ -16,7 +16,7 @@ class SuccessCreateUserClientCredentialsGrantResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "success" => true,
+            "status" => "success",
             "data" => [
                 "client_id" => $this->id,
                 "client_secret" => Crypt::decryptString($this->phrase),

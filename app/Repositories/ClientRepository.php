@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use Laravel\Passport\Client;
+use App\Models\Client;
 
 class ClientRepository
 {
@@ -33,5 +33,15 @@ class ClientRepository
     function delete(int $id)
     {
         return $this->client->delete($id);
+    }
+
+    function setPlainSecret(string $plainSecret)
+    {
+        $this->client->plainSecret = $plainSecret;
+    }
+
+    function getPlainSecret()
+    {
+        return $this->client->plainSecret;
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Client;
 use App\Repositories\ClientRepository;
 use App\Traits\ClientTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 
 class ClientService
 {
@@ -16,30 +16,36 @@ class ClientService
         protected ClientRepository $client
     ) {}
 
-    function findClient(Request $request)
+    function findClient(string $clientId)
     {
         $attributes = [
-            "id" => $request->client_id,
+            "id" => $clientId,
         ];
 
-        $client = $this->client->find($attributes);
+        return $this->client->find($attributes);
+    }
 
-        if (!$client) {
+    function checkClientCredentials(Client $client, string $clientSecret)
+    {
+        return Hash::check($clientSecret, $client->secret);
+    }
+
+    function findClientCredentials(Request $request)
+    {
+        $client = $this->findClient($request->client_id);
+
+        if(!$client)
+        {
             return;
         }
 
-        $checkCredentials = Hash::check($request->client_secret, $client->secret);
+        $checkCredentials = $this->checkClientCredentials($client, $request->client_secret);
 
-        if ($$checkCredentials) {
-            return;
+        if(!$checkCredentials)
+        {
+            return ;
         }
 
-        $response = Http::asForm()->post(url("/oaut/token"), [
-            "grant_type" => "client_credentials",
-            "client_id" => $request->client_id,
-            "client_secret" => $request->client_secret,
-        ]);
-
-        return $response->json();
+        return $this->postOAuthServer($request->only("client_id", "client_secret", "grant_type"));
     }
 }

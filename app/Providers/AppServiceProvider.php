@@ -32,8 +32,5 @@ class AppServiceProvider extends ServiceProvider
         Passport::useClientModel(Client::class);
         Passport::useTokenModel(AccessToken::class);
         Passport::useRefreshTokenModel(RefreshToken::class);
-
-        Passport::tokensCan(["*"]);
-        Passport::defaultScopes(["*"]);
     }
 }

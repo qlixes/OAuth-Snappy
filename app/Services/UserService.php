@@ -23,7 +23,7 @@ class UserService
      * @param  mixed $request
      * @return void
      */
-    function createUserClientCredentialsGrant(Request $request)
+    function createUserPasswordGrant(Request $request)
     {
         $password = Hash::make($request->password);
 
@@ -36,15 +36,15 @@ class UserService
 
         $user = $this->user->create($userAttributes);
 
-        $secret = $this->createClientSecret();
+        $this->client->setPlainSecret($this->createClientSecret());
 
-        $clientAttributes = [
+        $clientCredentialsGrantAttributes = [
             "owner_id" => $user->id,
             "redirect_uris" => json_encode('[]'),
             "callback_uris" => json_encode('[]'),
-            "grant_types" => json_encode('["client_credentials]'),
+            "grant_types" => json_encode('["password"]'),
         ];
 
-        return $this->client->create($clientAttributes);
+        return $this->client->create($clientCredentialsGrantAttributes);
     }
 }

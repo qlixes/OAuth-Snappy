@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'guard' => 'web',
+    'guard' => 'api',
 
     /*
     |--------------------------------------------------------------------------
@@ -42,5 +42,10 @@ return [
     */
 
     'connection' => env('PASSPORT_CONNECTION'),
+
+    "scopes" =>[
+        "admin."
+    ],
+    "default_scope" => ""
 
 ];
