@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\Token;
 
-class AccessToken extends Model
+class AccessToken extends Token
 {
     protected $table = "oauth_access_tokens";
 
