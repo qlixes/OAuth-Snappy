@@ -23,11 +23,4 @@ trait ClientTrait
     {
         return sprintf("CID_%s", Str::ulid());
     }
-
-    function postOAuthServer(array $attributes)
-    {
-        $response = Http::asForm()->post(url("/oauth/token", $attributes));
-
-        return $response->json();
-    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -9,25 +10,18 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:api');
 
-// Route::group([
-//     "as" => "passport.",
-//     "prefix" => config("passport.path", "oauth"),
-//     "namespace" => "\Laravel\Passport\Http\Controllers",
-// ], function() {
+// generate token password-grant
+Route::post("/user/signin", [AuthController::class, "signin"]);
 
-// });
+// must using signature for securiety
+Route::post("/user/create", [UserController::class, "createUser"]);
 
-Route::post("/admin/create-token", [UserController::class, "createUserToken"]);
-Route::post("/client/create-token", [ClientController::class, "createClientToken"]);
+// generate token client_credentials
+Route::post("/oauth/token", [UserController::class, "createToken"]);
 
-Route::middleware("auth:api")->group(function () {
+Route::middleware("auth:api")->group(function() {
+    Route::post("/user/profile", [UserController::class, "verify"]);
 
-    Route::prefix("client")->group(function () {
-        Route::get("/show-profile", [ClientController::class, "selectClientProfile"]);
-        Route::post("/update-client", [ClientController::class, "updateClientProfile"]);
-    });
-
-    Route::prefix("admin")->group(function () {
-        Route::post("/create-user", [UserController::class, "createUserClient"]);
-    });
+    // revoked token password-grant
+    Route::post("/user/signout", [UserController::class, "signout"]);
 });

@@ -2,19 +2,18 @@
 
 namespace App\Services;
 
-use App\Repositories\ClientRepository;
-use App\Repositories\UserRepository;
+use App\Repositories\Useruser;
 use App\Traits\ClientTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\Clientuser;
 
 class UserService
 {
     use ClientTrait;
 
     function __construct(
-        protected UserRepository $user,
-        protected ClientRepository $client,
+        protected Useruser $user
     ) {}
 
     /**
@@ -23,8 +22,15 @@ class UserService
      * @param  mixed $request
      * @return void
      */
-    function createUserPasswordGrant(Request $request)
+    function store($request)
     {
+        $user = $this->findEmail($request);
+
+        if($user)
+        {
+            die();
+        }
+
         $password = Hash::make($request->password);
 
         $userAttributes = [
@@ -34,17 +40,11 @@ class UserService
             "channel_id" => json_encode('[]'),
         ];
 
-        $user = $this->user->create($userAttributes);
+        return $this->user->create($userAttributes);
+    }
 
-        $this->client->setPlainSecret($this->createClientSecret());
-
-        $clientCredentialsGrantAttributes = [
-            "owner_id" => $user->id,
-            "redirect_uris" => json_encode('[]'),
-            "callback_uris" => json_encode('[]'),
-            "grant_types" => json_encode('["password"]'),
-        ];
-
-        return $this->client->create($clientCredentialsGrantAttributes);
+    function findEmail($request)
+    {
+        return $this->user->find($request->only('email'));
     }
 }

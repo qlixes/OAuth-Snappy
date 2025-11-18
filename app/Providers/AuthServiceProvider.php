@@ -34,5 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::useClientModel(Client::class);
         Passport::useTokenModel(AccessToken::class);
         Passport::useRefreshTokenModel(RefreshToken::class);
+
+        Passport::ignoreRoutes();
     }
 }
