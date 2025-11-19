@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Traits\ClientTrait;
 use Illuminate\Support\Facades\Hash;
@@ -22,13 +23,6 @@ class UserService
      */
     function store($request)
     {
-        $user = $this->findEmail($request);
-
-        if($user)
-        {
-            die();
-        }
-
         $password = Hash::make($request->password);
 
         $userAttributes = [
@@ -41,8 +35,13 @@ class UserService
         return $this->user->create($userAttributes);
     }
 
-    function findEmail($request)
+    function findEmail(array $email)
     {
-        return $this->user->find($request->only('email'));
+        return $this->user->find($email);
+    }
+
+    function checkCredentials(User $user, string $password)
+    {
+        return Hash::check($password, $user->password);
     }
 }

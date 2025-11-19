@@ -14,7 +14,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
-    protected $hidden = ['password',];
+    protected $hidden = ['password'];
 
     protected $guarded = [];
 
@@ -31,6 +31,6 @@ class User extends Authenticatable
 
     function clients()
     {
-        return $this->hasMany(Client::class, "owner_id");
+        return $this->hasOne(Client::class, "owner_id");
     }
 }

@@ -14,7 +14,7 @@ class ClientRepository extends PassportClientRepository
 
     function storePasswordGrantClient(User $user)
     {
-        return $this->create($user->name, ['password', 'refresh_token'], [], null, true, $user);
+        return $this->create($user->name, ['password', 'refresh_token'], [], "users", true, $user);
     }
 
     function storeClientCredentialsGrantClient(User $user)

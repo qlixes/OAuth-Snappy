@@ -18,7 +18,7 @@ Route::post("/user/create", [AuthController::class, "register"]);
 Route::post("/oauth/token", [AuthController::class, "token"]);
 
 Route::middleware("auth:api")->group(function () {
-    Route::post("/user/profile", [AuthController::class, "verify"]);
+    Route::post("/user/profile", [AuthController::class, "profile"]);
 
     // revoked token password-grant
     Route::post("/user/signout", [AuthController::class, "signout"]);

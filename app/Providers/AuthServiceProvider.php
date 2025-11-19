@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::enablePasswordGrant();
         Passport::tokensExpireIn(CarbonInterval::minutes(15));
         Passport::refreshTokensExpireIn(CarbonInterval::hours(1));
-        Passport::personalAccessTokensExpireIn(CarbonInterval::days(1));
+        Passport::personalAccessTokensExpireIn(CarbonInterval::hours(1));
 
         Passport::useClientModel(Client::class);
         Passport::useTokenModel(AccessToken::class);

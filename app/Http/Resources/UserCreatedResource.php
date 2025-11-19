@@ -16,9 +16,17 @@ class UserCreatedResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "email" => $this->email,
-            "name" => $this->name,
-            "clients" => $this->clients,
+            "status" => true,
+            "message" => "Successfully create",
+            "data" => [
+                "email" => $this->email,
+                "name" => $this->name,
+                "clients" => [
+                    "client_id" => $this->clients->id,
+                    "client_secret" => Crypt::decryptString($this->clients->phrase),
+                    "grant_types" => $this->clients->grant_types,
+                ],
+            ],
         ];
     }
 }
