@@ -31,6 +31,6 @@ class User extends Authenticatable
 
     function clients()
     {
-        return $this->morphMany(Client::class, "owner");
+        return $this->hasMany(Client::class, "owner_id");
     }
 }

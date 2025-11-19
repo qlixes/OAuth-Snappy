@@ -2,18 +2,16 @@
 
 namespace App\Services;
 
-use App\Repositories\Useruser;
+use App\Repositories\UserRepository;
 use App\Traits\ClientTrait;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Passport\Clientuser;
 
 class UserService
 {
     use ClientTrait;
 
     function __construct(
-        protected Useruser $user
+        protected UserRepository $user
     ) {}
 
     /**

@@ -4,8 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Crypt;
 
-class ValidationErrorResource extends JsonResource
+class UserCreatedResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +16,9 @@ class ValidationErrorResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "status" => "error",
-            "messages" => "Parameter was missing.",
+            "email" => $this->email,
+            "name" => $this->name,
+            "clients" => $this->clients,
         ];
     }
 }
